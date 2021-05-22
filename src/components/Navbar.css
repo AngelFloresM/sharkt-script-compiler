@@ -1,0 +1,12 @@
+.navbar{
+   width: 100%;
+   height: 56px;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+}
+
+.navbar p{
+   font-family: SimSun-ExtB;
+   font-size: 18px;
+}
