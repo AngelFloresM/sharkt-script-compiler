@@ -4,8 +4,6 @@ import AceEditor from "react-ace";
 import "ace-builds/src-noconflict/theme-monokai";
 
 export default function Code({ changeCode }) {
-   // const [code, setCode] = useState("");
-
    return (
       <div className="code">
          <p>Code:</p>
@@ -14,11 +12,13 @@ export default function Code({ changeCode }) {
             theme="monokai"
             style={{
                width: "100%",
-               height: "92%",
+               height: "93%",
                borderRadius: "10px",
                backgroundColor: "#313131",
-               boxSizing: "border-box"
+               boxSizing: "border-box",
             }}
+            fontSize={16}
+            onChange={(currentCode) => changeCode(currentCode)}
          />
       </div>
    );

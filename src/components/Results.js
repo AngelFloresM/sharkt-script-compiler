@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import Token from './results/Token'
 
-export default function Results() {
-   const [textArea, setTextArea] = useState("");
+export default function Results({type, code}) {
+   const [textCode, setTextCode] = useState("");
 
-   function changeTextArea(event) {
-      setTextArea(event.target.value);
-   }
+   useEffect(() => {
+      console.log(type)
+   }, [type, code])
 
    return (
       <div className="results">
          <p>Resultados:</p>
-         <textarea
-            name="results"
-            value={textArea}
-            onChange={changeTextArea}
-         />
+         <div className='results-area'>
+            <Token type="Type" value='Value'/>
+         </div>
       </div>
    );
 }
