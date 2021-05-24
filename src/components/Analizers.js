@@ -1,12 +1,18 @@
 import React, { useState } from "react";
 import Results from "./Results";
 
-export default function Analizers({ printCode, code }) {
+export default function Analizers({ code }) {
    const [type, setType] = useState("lexico");
+   const [performAnalysis, setPerformAnalysis] = useState(false);
 
    function changeType(event) {
-      setType(event.target.name);
-      printCode()
+      // setType(event.target.name);
+      if (performAnalysis === false) {
+         setPerformAnalysis(true);
+      }
+      setTimeout(() => {
+         setPerformAnalysis(false)
+      }, 250);
    }
 
    return (
@@ -25,7 +31,12 @@ export default function Analizers({ printCode, code }) {
                </button>
             </div>
          </div>
-         <Results code={code} type={type} />
+         <Results
+            code={code}
+            type={type}
+            performAnalysis={performAnalysis}
+            changePerform={setPerformAnalysis}
+         />
       </div>
    );
 }

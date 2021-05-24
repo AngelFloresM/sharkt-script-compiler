@@ -12,7 +12,7 @@ export default function Code({ changeCode }) {
             theme="monokai"
             style={{
                width: "100%",
-               height: "93%",
+               height: "calc(100% - 6% - 18px)",
                borderRadius: "10px",
                backgroundColor: "#313131",
                boxSizing: "border-box",

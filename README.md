@@ -6,10 +6,8 @@ The UI is made in **ReactJS** simple and straight to the point, where you would 
 
 This programming language is pretty much a clone of JavaScript but simpler, with a shortage in some keywords, types, statements and a little more.
 
-## Keywords
-
-
 ## Project Dependencies
 
 * [NearleyJS] (https://nearley.js.org/)
 * [MooJS] (https://github.com/no-context/moo)
+
