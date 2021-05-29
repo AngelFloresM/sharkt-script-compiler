@@ -1,0 +1,52 @@
+const rules = {
+   ws: /[ \t]+/,
+   comment: {
+      match: /\/\/.*?$/,
+      value: (s) => s.substring(2),
+   },
+   number: {
+      match: /[0-9]*\.[0-9]+|0|[1-9][0-9]*/,
+      value: Number,
+   },
+   string: /"(?:\\["\\]|[^\n"\\])*"|'(?:\\["\\]|[^\n"\\])*'/,
+   boolean: ["TRUE", "FALSE"],
+   lparan: "(",
+   rparan: ")",
+   lbrace: "{",
+   rbrace: "}",
+   coma: ",",
+   colon: ":",
+   lte: "<=",
+   lt: "<",
+   gte: ">=",
+   gt: ">",
+   eq: "==",
+   neq: "!=",
+   assignment: "=",
+   plus: "+",
+   minus: "-",
+   multiply: "*",
+   divide: "/",
+   module: "%",
+   keyword: [
+      "const",
+      "var",
+      "null",
+      "if",
+      "else",
+      "while",
+      "return",
+      "func",
+      "or",
+      "and",
+   ],
+   identifier: {
+      match: /[_a-zA-z][_a-zA-Z0-9]{0,30}/,
+   },
+   nl: {
+      match: /\n/,
+      lineBreaks: true,
+   },
+};
+
+module.exports = rules;

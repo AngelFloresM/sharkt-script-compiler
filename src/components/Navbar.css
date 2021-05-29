@@ -4,9 +4,11 @@
    display: flex;
    align-items: center;
    justify-content: center;
+   background-image: linear-gradient(to right, #00ACD8, #3F58BB);
 }
 
 .navbar p{
    font-family: SimSun-ExtB;
    font-size: 18px;
+   color: white;
 }

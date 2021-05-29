@@ -18,7 +18,11 @@ export default function Code({ changeCode }) {
                boxSizing: "border-box",
             }}
             fontSize={16}
+            highlightActiveLine={true}
             onChange={(currentCode) => changeCode(currentCode)}
+            setOptions={{
+               tabSize: 3
+            }}
          />
       </div>
    );

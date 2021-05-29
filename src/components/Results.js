@@ -1,45 +1,68 @@
 import React, { useState, useEffect } from "react";
-import Token from "./results/Token";
-import { lexer } from "../scripts/Lexer";
+import Lexer from "./analyzers/Lexer";
+import Parser from "./analyzers/Parser";
+import Semantic from "./analyzers/Semantic";
 
-export default function Results({
-   type,
-   code,
-   performAnalysis,
-   changePerform,
-}) {
-   const [textCode, setTextCode] = useState(code);
-   const [tokens, setTokens] = useState([]);
+export default function Results({ type, results, setError }) {
+   // const [ast, setAst] = useState("");
+   // const [tokensList, setTokensList] = useState([]);
 
-   useEffect(() => {
-      if (performAnalysis) {
-         setTextCode(code);
-      }
-   }, [performAnalysis]);
+   // useEffect(() => {
+   //    axios
+   //       .post(`http://localhost:8080/${type}`, {
+   //          textCode,
+   //       })
+   //       .then((response) => console.log(response));
+   // }, [])
 
-   useEffect(() => {
-      performLexer();
-   }, [textCode]);
+   // useEffect(() => {
+   //    if (performAnalysis) {
+   //       setTextCode(code);
+   //    }
+   // }, [performAnalysis, code]);
 
-   function performLexer() {
-      let token;
-      let tokenList = [];
-      tokenList.push({ type: "Type", value: "Value" });
-      lexer.reset(textCode);
-      while ((token = lexer.next())) {
-         const { type, value } = token;
-         tokenList.push({ type, value });
-      }
-      setTokens(tokenList);
-   }
+   // useEffect(() => {
+   //    // if (type === "lexico")
+   //    axios
+   //       .post(`http://localhost:8080/${type}`, {
+   //          textCode,
+   //       })
+   //       .then((response) => console.log(response));
+      // .then((data) => {
+      //    const { result, error, message } = data;
+      //    console.log(result);
+      //    setError({ error, message });
+      //    setTokensList(result);
+      // });
+      // else if (type === "sintactico")
+      //    fetch(`http://localhost:8080/${type}`, {
+      //       method: "POST",
+      //       body: textCode,
+      //       headers: {
+      //          "Content-Type": "text/plain",
+      //       },
+      //    })
+      //       .then((response) => response.json())
+      //       .then((data) => {
+      //          const { result, error, message } = data;
+      //          console.log(message);
+      //          setError({ error, message });
+      //          setAst(result);
+      //       });
+      // else if (type === "semantico")
+   // }, [textCode, type]);
 
    return (
       <div className="results">
          <p>Resultados:</p>
          <div className="results-area">
-            {tokens.map(({ type, value }, i) => (
-               <Token type={type} value={value} key={i} />
-            ))}
+            {type === "lexico" ? (
+               <Lexer results={results} />
+            ) : type === "sintactico" ? (
+               <Parser results={results} />
+            ) : (
+               <Semantic />
+            )}
          </div>
       </div>
    );

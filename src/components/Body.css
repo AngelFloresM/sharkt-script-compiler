@@ -124,19 +124,39 @@
    width: 65%;
 }
 
-.results-area .token-item:first-child p{
+.token-item:first-child p{
    color: #3F58BB;
+}
+
+#parserArea{
+   width: 100%;
+   height: 100%;
+   padding: 0.5rem;
+   border: none;
+   resize: none;
+   background-color: transparent;
+}
+
+#parserArea:focus{
+   outline: none;
 }
 
 .errors{
    grid-area: errors;
 }
 
-.errors #errorsArea{
+#errorsArea{
    width: 100%;
    height: calc(100% - 2rem - 20px);
+   font-size: 1rem;
+   color: white;
+   padding: 0.5rem;
    border: none;
    border-radius: 10px;
-   resize: none;
    background-color: #525252;
+   resize: none;
+}
+
+#errorsArea:focus{
+   outline: none;
 }
