@@ -27,9 +27,7 @@ var grammar = {
            }
         }
            },
-    {"name": "statements", "symbols": [], "postprocess":  
-        () => [] 
-              },
+    {"name": "statements", "symbols": [], "postprocess": () => []},
     {"name": "statements", "symbols": ["statement"], "postprocess":  
         (d) => [d[0]]
               },
@@ -37,9 +35,9 @@ var grammar = {
         (d) => [d[0], ...d[4]]
               },
     {"name": "statements", "symbols": ["_", "nl", "_", "statements"], "postprocess": 
-        (d) => [d[0], ...d[3]]
+        (d) => d[3]
               },
-    {"name": "statement", "symbols": ["func_declaration"], "postprocess": d => d[0]},
+    {"name": "statement", "symbols": ["func_definition"], "postprocess": d => d[0]},
     {"name": "statement", "symbols": ["func_call"], "postprocess": d => d[0]},
     {"name": "statement", "symbols": ["var_definition"], "postprocess": d => d[0]},
     {"name": "statement", "symbols": ["var_assignment"], "postprocess": d => d[0]},
@@ -47,7 +45,8 @@ var grammar = {
     {"name": "statement", "symbols": ["while_loop"], "postprocess": d => d[0]},
     {"name": "statement", "symbols": ["if_statement"], "postprocess": d => d[0]},
     {"name": "statement", "symbols": ["return_statement"], "postprocess": d => d[0]},
-    {"name": "func_declaration", "symbols": [{"literal":"func"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), {"literal":"("}, "_", "parameter_list", "_", {"literal":")"}, "_", "code_block"], "postprocess": 
+    {"name": "statement", "symbols": ["additive_expression"], "postprocess": d => d[0]},
+    {"name": "func_definition", "symbols": [{"literal":"func"}, "__", (lexer.has("identifier") ? {type: "identifier"} : identifier), {"literal":"("}, "_", "parameter_list", "_", {"literal":")"}, "_", "code_block"], "postprocess": 
         d => ({
               type: "func_definition",
               name: convertToken(d[2]),
@@ -68,10 +67,7 @@ var grammar = {
         d => [d[0], ...d[4]]
               },
     {"name": "code_block", "symbols": [{"literal":"{"}, "nl", "_", "statements", "_", "nl", {"literal":"}"}], "postprocess": 
-        (d) => ({
-           type: "code_block",
-           statements: d[3],
-        })
+        (d) => d[3]
               },
     {"name": "return_statement", "symbols": [{"literal":"return"}, "__", "expression"], "postprocess": 
         d => ({
@@ -163,7 +159,14 @@ var grammar = {
            right: d[4]
         })
               },
-    {"name": "unary_expression", "symbols": ["expression"], "postprocess": id},
+    {"name": "unary_expression", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": convertTokenId},
+    {"name": "unary_expression", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": convertTokenId},
+    {"name": "unary_expression", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": 
+        d => ({
+              type: "var_reference",
+              var_name: convertToken(d[0]),
+        })
+              },
     {"name": "var_type", "symbols": [{"literal":"const"}], "postprocess": convertVarType},
     {"name": "var_type", "symbols": [{"literal":"var"}], "postprocess": convertVarType},
     {"name": "expression", "symbols": [(lexer.has("identifier") ? {type: "identifier"} : identifier)], "postprocess": 
@@ -201,8 +204,8 @@ var grammar = {
     {"name": "logic_opeartor", "symbols": [{"literal":"!="}], "postprocess": convertTokenId},
     {"name": "literal", "symbols": [(lexer.has("string") ? {type: "string"} : string)], "postprocess": convertTokenId},
     {"name": "literal", "symbols": [(lexer.has("number") ? {type: "number"} : number)], "postprocess": convertTokenId},
-    {"name": "literal", "symbols": [{"literal":"TRUE"}], "postprocess": convertTokenId},
-    {"name": "literal", "symbols": [{"literal":"FALSE"}], "postprocess": convertTokenId},
+    {"name": "literal", "symbols": [{"literal":"true"}], "postprocess": convertTokenId},
+    {"name": "literal", "symbols": [{"literal":"false"}], "postprocess": convertTokenId},
     {"name": "literal", "symbols": [{"literal":"null"}], "postprocess": convertTokenId},
     {"name": "line_comment", "symbols": [(lexer.has("comment") ? {type: "comment"} : comment)], "postprocess":  
         d => ({
@@ -212,10 +215,10 @@ var grammar = {
            },
     {"name": "__$ebnf$1", "symbols": [(lexer.has("ws") ? {type: "ws"} : ws)]},
     {"name": "__$ebnf$1", "symbols": ["__$ebnf$1", (lexer.has("ws") ? {type: "ws"} : ws)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "__", "symbols": ["__$ebnf$1"]},
+    {"name": "__", "symbols": ["__$ebnf$1"], "postprocess": id},
     {"name": "_$ebnf$1", "symbols": []},
     {"name": "_$ebnf$1", "symbols": ["_$ebnf$1", (lexer.has("ws") ? {type: "ws"} : ws)], "postprocess": function arrpush(d) {return d[0].concat([d[1]]);}},
-    {"name": "_", "symbols": ["_$ebnf$1"]},
+    {"name": "_", "symbols": ["_$ebnf$1"], "postprocess": id},
     {"name": "nl", "symbols": [(lexer.has("nl") ? {type: "nl"} : nl)]}
 ]
   , ParserStart: "program"

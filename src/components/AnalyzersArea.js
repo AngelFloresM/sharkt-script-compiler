@@ -2,8 +2,8 @@ import React, { useState } from "react";
 import axios from "axios";
 import Results from "./Results";
 
-export default function Analizers({ code, setError }) {
-   const [type, setType] = useState("lexico");
+export default function Analyzers({ code, setError }) {
+   const [type, setType] = useState("lexico")
    const [results, setResults] = useState(undefined);
 
    function performAnalysis(event) {
@@ -24,8 +24,8 @@ export default function Analizers({ code, setError }) {
 
    return (
       <div className="analyzers">
-         <div className="analizers-area">
-            <p>Analizers:</p>
+         <div className="analyzers-area">
+            <p>Analizadores:</p>
             <div className="buttons">
                <button name="lexico" onClick={performAnalysis}>
                   Léxico
@@ -41,7 +41,6 @@ export default function Analizers({ code, setError }) {
          <Results
             results={results}
             type={type}
-            setError={setError}
          />
       </div>
    );

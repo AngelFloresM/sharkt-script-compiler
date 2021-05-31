@@ -1,6 +1,7 @@
 const lexer = require("./lexer/Lexer");
 const nearley = require("nearley");
 const grammar = require("../analyzers/parser/grammar");
+const { makeTable, assignValue } = require("./semantic/Semantic");
 
 function performLexer(textCode) {
    let token;
@@ -39,19 +40,35 @@ function performParser(textCode) {
          error: false,
          message: "",
       };
-   } catch (err) {
-      const { token } = err;
-      const { line, col, type, value } = token;
+   } catch ({ message }) {
       return {
          result: [],
          error: true,
-         message: `Syntax error at line ${line} col ${col} \nToken '${type}' with value '${value}'`,
+         message: message.split(":\n\n")[0],
       };
    }
 }
 
-function performSemantic() {
-   return "Semantic";
+function performSemantic(ast, statementScope) {
+   let table;
+   try {
+      table = makeTable(ast, statementScope);
+      // console.log(table)
+      table = assignValue(ast, table)
+      console.log(table)
+      console.log(ast)
+   } catch ({ message }) {
+      return {
+         result: "",
+         error: true,
+         message,
+      };
+   }
+   return {
+      result: "All Gucci",
+      error: true,
+      message: "",
+   };
 }
 
 module.exports = { performLexer, performParser, performSemantic };

@@ -9,7 +9,7 @@ const rules = {
       value: Number,
    },
    string: /"(?:\\["\\]|[^\n"\\])*"|'(?:\\["\\]|[^\n"\\])*'/,
-   boolean: ["TRUE", "FALSE"],
+   boolean: ["true", "false"],
    lparan: "(",
    rparan: ")",
    lbrace: "{",

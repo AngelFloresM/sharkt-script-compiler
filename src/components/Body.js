@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Code from "./Code";
-import Analyzers from "./AnalizersArea";
+import Analyzers from "./AnalyzersArea";
 import Errors from "./Errors";
 import "./Body.css";
 

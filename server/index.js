@@ -35,10 +35,22 @@ app.post("/semantico", (req, res) => {
    const {
       body: { code },
    } = req;
-   let data = performSemantic(code);
-   res.json({
-      ...data,
-   });
+   const parserResult = performParser(code);
+
+   if (parserResult.error) {
+      res.json({
+         ...parserResult,
+      });
+   } else {
+      const {
+         result: { body },
+      } = parserResult;
+      const data = performSemantic(body, "global");
+      console.log(data)
+      res.json({
+         ...data,
+      });
+   }
 });
 
 app.listen(8080);

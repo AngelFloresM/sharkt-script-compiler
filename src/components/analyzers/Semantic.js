@@ -1,9 +1,9 @@
-import React from 'react'
+import React from "react";
 
-export default function Semantic() {
+export default function Semantic({ results }) {
    return (
-      <div>
-         
-      </div>
-   )
+      <>
+         <textarea id="parserArea" name="parserArea" value={results} readOnly />
+      </>
+   );
 }

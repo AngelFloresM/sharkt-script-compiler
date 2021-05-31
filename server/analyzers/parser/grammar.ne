@@ -28,9 +28,7 @@ program -> statements
 
 statements 
    -> null   
-      {% 
-         () => [] 
-      %}
+      {% () => [] %}
    |  statement 
       {% 
          (d) => [d[0]]
@@ -41,11 +39,11 @@ statements
       %}
    | _ nl _ statements
       {%
-         (d) => [d[0], ...d[3]]
+         (d) => d[3]
       %}
 
 statement 
-   -> func_declaration     {% d => d[0] %}
+   -> func_definition      {% d => d[0] %}
    |  func_call            {% d => d[0] %}
    |  var_definition       {% d => d[0] %} 
    |  var_assignment       {% d => d[0] %} 
@@ -53,8 +51,9 @@ statement
    |  while_loop           {% d => d[0] %}
    |  if_statement         {% d => d[0] %}
    |  return_statement     {% d => d[0] %}
+   |  additive_expression  {% d => d[0] %}
 
-func_declaration -> "func" __ %identifier "(" _ parameter_list _ ")" _ code_block
+func_definition -> "func" __ %identifier "(" _ parameter_list _ ")" _ code_block
       {%
          d => ({
                type: "func_definition",
@@ -86,10 +85,7 @@ parameter_list
 
 code_block -> "{" nl _ statements _ nl "}"
       {%
-         (d) => ({
-            type: "code_block",
-            statements: d[3],
-         })
+         (d) => d[3]
       %}
 
 return_statement -> "return" __ expression
@@ -208,8 +204,15 @@ multiplicative_expression
       %}
 
 unary_expression
-    -> expression {% id %}
-
+   -> %string     {% convertTokenId %}
+   |  %number     {% convertTokenId %}
+   |  %identifier       
+      {%
+         d => ({
+               type: "var_reference",
+               var_name: convertToken(d[0]),
+         })
+      %}
 
 var_type
    -> "const"        {% convertVarType %}
@@ -266,8 +269,8 @@ logic_opeartor
 literal 
    -> %string     {% convertTokenId %}
    |  %number     {% convertTokenId %}
-   | "TRUE"       {% convertTokenId %}
-   | "FALSE"      {% convertTokenId %}
+   | "true"       {% convertTokenId %}
+   | "false"      {% convertTokenId %}
    | "null"       {% convertTokenId %}
 
 line_comment -> %comment 
@@ -278,8 +281,8 @@ line_comment -> %comment
       })
    %} 
 
-__ -> %ws:+
+__ -> %ws:+ {% id %}
 
-_ -> %ws:*
+_ -> %ws:*  {% id %}
 
 nl -> %nl
